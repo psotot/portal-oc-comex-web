@@ -29,7 +29,7 @@ export function PurchaseOrdersPage() {
       <div>
         <h1 className="text-2xl font-semibold">Órdenes de Compra</h1>
         <p className="text-sm text-muted-foreground">
-          {data ? `${data.totalCount} órdenes en total` : ' '}
+          {data ? `${data.total} órdenes en total` : ' '}
         </p>
       </div>
 

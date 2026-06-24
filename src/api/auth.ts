@@ -6,8 +6,8 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  token: string
-  expiresAt: string
+  accessToken: string
+  expiresInSeconds: number
 }
 
 export interface UserProfile {
