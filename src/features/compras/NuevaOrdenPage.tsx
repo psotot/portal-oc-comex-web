@@ -807,8 +807,8 @@ export function NuevaOrdenPage() {
                             options={departurePortOptions}
                             value={field.value ?? ''}
                             onChange={(v) => field.onChange(v || null)}
-                            placeholder={loadingPortsOpts ? 'Cargando...' : 'Seleccionar puerto...'}
-                            disabled={loadingPortsOpts}
+                            placeholder={loadingPorts ? 'Cargando...' : 'Seleccionar puerto...'}
+                            disabled={loadingPorts}
                           />
                         </FormControl>
                         <FormMessage />
@@ -827,8 +827,8 @@ export function NuevaOrdenPage() {
                             options={arrivalPortOptions}
                             value={field.value ?? ''}
                             onChange={(v) => field.onChange(v || null)}
-                            placeholder={loadingPortsOpts ? 'Cargando...' : 'Seleccionar puerto...'}
-                            disabled={loadingPortsOpts}
+                            placeholder={loadingPorts ? 'Cargando...' : 'Seleccionar puerto...'}
+                            disabled={loadingPorts}
                           />
                         </FormControl>
                         <FormMessage />
