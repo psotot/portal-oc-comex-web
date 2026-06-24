@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -70,7 +70,10 @@ export function UsuariosPage() {
     enabled: !!accesoTarget,
   })
 
-  const rolesMap = Object.fromEntries((roles?.items ?? []).map(r => [r.id, r.nombre]))
+  const rolesMap = useMemo(
+    () => Object.fromEntries((roles?.items ?? []).map(r => [r.id, r.nombre])),
+    [roles?.items],
+  )
 
   const invalidateUsuarios = () => qc.invalidateQueries({ queryKey: ['usuarios'] })
   const invalidateAcceso = () =>

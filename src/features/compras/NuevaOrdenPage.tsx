@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm, useFieldArray, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useQuery, useMutation } from '@tanstack/react-query'
@@ -93,11 +93,15 @@ function Combobox({
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
 
-  const filtered = options.filter((opt) =>
-    opt.label.toLowerCase().includes(search.toLowerCase())
+  const filtered = useMemo(
+    () => options.filter((opt) => opt.label.toLowerCase().includes(search.toLowerCase())),
+    [options, search],
   )
 
-  const selectedLabel = options.find((opt) => opt.value === value)?.label
+  const selectedLabel = useMemo(
+    () => options.find((opt) => opt.value === value)?.label,
+    [options, value],
+  )
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -267,28 +271,29 @@ export function NuevaOrdenPage() {
 
   // ── Options ───────────────────────────────────────────────────────────────
 
-  const proveedorOptions: ComboboxOption[] =
-    proveedoresData?.items.map((p) => ({
-      value: p.cardCode,
-      label: `${p.cardCode} - ${p.cardName}`,
-    })) ?? []
+  const proveedorOptions = useMemo<ComboboxOption[]>(
+    () => proveedoresData?.items.map((p) => ({ value: p.cardCode, label: `${p.cardCode} - ${p.cardName}` })) ?? [],
+    [proveedoresData],
+  )
 
-  const articuloOptions: ComboboxOption[] =
-    articulosData?.items.map((a) => ({
-      value: a.itemCode,
-      label: `${a.itemCode} - ${a.itemName}`,
-    })) ?? []
+  const articuloOptions = useMemo<ComboboxOption[]>(
+    () => articulosData?.items.map((a) => ({ value: a.itemCode, label: `${a.itemCode} - ${a.itemName}` })) ?? [],
+    [articulosData],
+  )
 
-  const loadingPortsOpts = loadingPorts
-  const departurePortOptions: ComboboxOption[] =
-    portsData?.items
+  const departurePortOptions = useMemo<ComboboxOption[]>(
+    () => portsData?.items
       .filter((p) => p.direction === 'Loading' || p.direction === 'Both')
-      .map((p) => ({ value: p.code, label: `${p.code} - ${p.name}` })) ?? []
+      .map((p) => ({ value: p.code, label: `${p.code} - ${p.name}` })) ?? [],
+    [portsData],
+  )
 
-  const arrivalPortOptions: ComboboxOption[] =
-    portsData?.items
+  const arrivalPortOptions = useMemo<ComboboxOption[]>(
+    () => portsData?.items
       .filter((p) => p.direction === 'Discharging' || p.direction === 'Both')
-      .map((p) => ({ value: p.code, label: `${p.code} - ${p.name}` })) ?? []
+      .map((p) => ({ value: p.code, label: `${p.code} - ${p.name}` })) ?? [],
+    [portsData],
+  )
 
   // ── Form ──────────────────────────────────────────────────────────────────
 
@@ -342,7 +347,7 @@ export function NuevaOrdenPage() {
     name: 'lines',
   })
 
-  const docCurrency = form.watch('docCurrency')
+  const docCurrency = useWatch({ control: form.control, name: 'docCurrency' })
 
   // ── Mutation ──────────────────────────────────────────────────────────────
 

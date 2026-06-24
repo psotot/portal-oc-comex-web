@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -152,9 +152,15 @@ export function SettingsPage() {
   }
 
   const allItems = data?.items ?? []
-  const categories = [...new Set(allItems.map(s => s.category))].sort()
+  const categories = useMemo(
+    () => [...new Set(allItems.map(s => s.category))].sort(),
+    [allItems],
+  )
   const activeCategory = selectedCategory ?? categories[0] ?? null
-  const filtered = activeCategory ? allItems.filter(s => s.category === activeCategory) : allItems
+  const filtered = useMemo(
+    () => activeCategory ? allItems.filter(s => s.category === activeCategory) : allItems,
+    [allItems, activeCategory],
+  )
 
   const fmt = (iso: string) =>
     new Date(iso).toLocaleString('es-CL', { dateStyle: 'short', timeStyle: 'short' })

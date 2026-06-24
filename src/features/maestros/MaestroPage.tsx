@@ -115,7 +115,7 @@ export function MaestroPage({ config }: { config: MaestroConfig }) {
   const resolvedNameField = nameField ?? fields[1]?.key ?? fields[0]?.key
 
   // Table-visible fields
-  const tableFields = fields.filter((f) => f.inTable !== false)
+  const tableFields = useMemo(() => fields.filter((f) => f.inTable !== false), [fields])
 
   // Schema memos for create and edit
   const createSchema = useMemo(() => buildSchema(fields, false), [fields])
@@ -226,8 +226,9 @@ export function MaestroPage({ config }: { config: MaestroConfig }) {
 
   // ─── Form fields for create/edit ───────────────────────────────────────────
 
-  const formFields = fields.filter((f) =>
-    editTarget ? f.inEdit !== false : f.inCreate !== false,
+  const formFields = useMemo(
+    () => fields.filter((f) => editTarget ? f.inEdit !== false : f.inCreate !== false),
+    [fields, editTarget],
   )
 
   const isSaving = createMutation.isPending || updateMutation.isPending
