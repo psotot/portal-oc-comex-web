@@ -17,8 +17,8 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: (data: LoginRequest) => authApi.login(data),
-    onSuccess: ({ token }) => {
-      localStorage.setItem('access_token', token)
+    onSuccess: ({ accessToken }) => {
+      localStorage.setItem('access_token', accessToken)
       queryClient.invalidateQueries({ queryKey: ['me'] })
       navigate('/')
     },

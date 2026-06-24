@@ -21,9 +21,12 @@ export interface PurchaseOrderListParams {
 
 export interface PagedResult<T> {
   items: T[]
-  totalCount: number
+  total: number
   page: number
   pageSize: number
+  totalPages: number
+  hasPreviousPage: boolean
+  hasNextPage: boolean
 }
 
 export const comprasApi = {
