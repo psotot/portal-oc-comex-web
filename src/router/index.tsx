@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
 import { LoginPage } from '@/features/auth/LoginPage'
 import { DashboardLayout } from '@/components/DashboardLayout'
 import { PurchaseOrdersPage } from '@/features/compras/PurchaseOrdersPage'
+import { NuevaOrdenPage } from '@/features/compras/NuevaOrdenPage'
 import { ProveedoresPage } from '@/features/proveedores/ProveedoresPage'
 import { ArticulosPage } from '@/features/articulos/ArticulosPage'
 import { UsuariosPage } from '@/features/usuarios/UsuariosPage'
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
 
           // Compras
           { path: 'ordenes-compra', element: <PurchaseOrdersPage /> },
+          { path: 'ordenes-compra/nueva', element: <NuevaOrdenPage /> },
 
           // Maestros — artículos y proveedores mantienen su página específica
           { path: 'maestros/articulos', element: <ArticulosPage /> },

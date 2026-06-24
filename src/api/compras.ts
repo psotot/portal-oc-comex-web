@@ -29,6 +29,57 @@ export interface PagedResult<T> {
   hasNextPage: boolean
 }
 
+export interface CreateOrderLine {
+  lineNum: number
+  itemCode: string
+  itemDescription: string
+  quantity: number
+  price: number
+  currency: string
+  discountPercent: number
+  warehouseCode: string
+  lineStatus: 'bost_Open' | 'bost_Close'
+  barCode?: string | null
+  uomCode?: string | null
+  containerCode?: string | null
+  containerSize?: string | null
+  productType?: string | null
+  netWeight?: number | null
+  grossWeight?: number | null
+  productCategory?: string | null
+}
+
+export interface CreateOrderPayload {
+  cardCode: string
+  cardName: string
+  docDate: string
+  docDueDate: string
+  docCurrency: string
+  docRate: number
+  series: number
+  documentStatus: string
+  partialSupply: boolean
+  confirmed: boolean
+  lines: CreateOrderLine[]
+  comments?: string | null
+  reference1?: string | null
+  numAtCard?: string | null
+  incoterm?: string | null
+  comexAnalyst?: string | null
+  forwarderName?: string | null
+  departurePortCode?: string | null
+  arrivalPortCode?: string | null
+  recipientCountryCode?: string | null
+  cargoReadyDate?: string | null
+  estimatedArrivalDate?: string | null
+  warehouseArrivalDate?: string | null
+  bookingNumber?: string | null
+  vesselName?: string | null
+  billOfLadingNumber?: string | null
+  originDepartureDate?: string | null
+  actualDepartureDate?: string | null
+}
+
 export const comprasApi = {
   listOrders: (params?: PurchaseOrderListParams) =>
     apiClient
@@ -38,7 +89,7 @@ export const comprasApi = {
   getOrder: (id: string) =>
     apiClient.get<PurchaseOrder>(`/compras/ordenes-compra/${id}`).then((r) => r.data),
 
-  createOrder: (data: Partial<PurchaseOrder>) =>
+  createOrder: (data: CreateOrderPayload) =>
     apiClient.post<PurchaseOrder>('/compras/ordenes-compra', data).then((r) => r.data),
 
   updateOrder: (id: string, data: Partial<PurchaseOrder>) =>
